@@ -5,3 +5,10 @@
 body {
   background-color: var(--background);
 }
+
+.action-button {
+  .loading {
+    pointer-events: none;
+    opacity: 0.5
+  }
+}

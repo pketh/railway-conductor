@@ -1,3 +1,5 @@
+let currentStatus
+
 const updateStatusElement = ({ isLoading, isRunning, isStopped, isUnknown }) => {
   const element = document.querySelector('.status-badge')
   if (isRunning) {
@@ -5,7 +7,7 @@ const updateStatusElement = ({ isLoading, isRunning, isStopped, isUnknown }) => 
     element.innerText = 'Running'
   } else if (isLoading) {
     element.classList.add('loading')
-    element.innerText = 'Loading'
+    element.innerText = 'Deploying…'
   } else if (isStopped) {
     element.classList.add('stopped')
     element.innerText = 'Stopped'
@@ -17,6 +19,12 @@ const updateStatusElement = ({ isLoading, isRunning, isStopped, isUnknown }) => 
 
 const updateActionButton = ({ isLoading, isRunning, isStopped, isUnknown }) => {
   const element = document.querySelector('.action-button')
+  if (isLoading) {
+    element.classList.add('loading')
+    element.innerText = 'loading'
+    return
+  }
+  element.classList.remove('loading')
   if (isRunning) {
     element.classList.add('stop')
     element.innerText = 'stop'
@@ -32,23 +40,64 @@ const updateStatus = async () => {
       method: 'GET',
     })
     const data = await response.json()
-    const status = data.data.data.serviceInstance.latestDeployment.status
+    const statusName = data.data.data.serviceInstance.latestDeployment.status
     const loading = ['INITIALIZING', 'PENDING', 'IN_PROGRESS', 'DEPLOYING', 'ROLLING_BACK']
     const running = ['SUCCESS', 'SUCCEEDED']
     const stopped = ['CRASHED', 'FAILED', 'FAILURE', 'TIMEOUT', 'CANCELED', 'CANCELLED']
-    const isLoading = loading.includes(status)
-    const isRunning = running.includes(status)
-    const isStopped = stopped.includes(status)
-    const isUnknown = status === 'UNKNOWN'
-    console.log('🔮', status, { isLoading, isRunning, isStopped, isUnknown })
-    updateStatusElement({ isLoading, isRunning, isStopped, isUnknown })
-    updateActionButton({ isLoading, isRunning, isStopped, isUnknown })
+    const isLoading = loading.includes(statusName)
+    const isRunning = running.includes(statusName)
+    const isStopped = stopped.includes(statusName)
+    const isUnknown = statusName === 'UNKNOWN'
+    const status = { isLoading, isRunning, isStopped, isUnknown }
+    console.log('🔮', statusName, status)
+    updateStatusElement(status)
+    updateActionButton(status)
+    currentStatus = status
   } catch (error) {
     console.error('🚒 status', error)
     updateStatusElement({ isUnknown: true })
   }
 }
 
+const stopService = async () => {
+  try {
+    const response = await fetch('/api/stop', {
+      method: 'GET',
+    })
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('🚒 stopService', error)
+  }
+}
+
+const startService = async () => {
+  try {
+    const response = await fetch('/api/start', {
+      method: 'GET',
+    })
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('🚒 startService', error)
+  }
+}
+
+const deploymentAction = async () => {
+  console.log('🌺',currentStatus)
+  const { isLoading, isRunning, isStopped, isUnknown } = currentStatus
+  if (isLoading) {
+    // do nothing, is already deploying
+    return
+  } else if (isRunning) {
+    updateActionButton({ isLoading: true })
+    await stopService()
+  } else {
+    updateActionButton({ isLoading: true })
+    await startService()
+  }
+  updateStatus()
+}
 
 updateStatus()
 setInterval(() => {
