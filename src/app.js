@@ -32,6 +32,7 @@ app.get('/api/start', async (request, response) => {
 app.get('/api/stop', async (request, response) => {
   console.info('🛬 stop')
   const data = await railway.stop()
+  console.log('🚛stop',data)
   response.json({
     message: 'stop service',
     data,
