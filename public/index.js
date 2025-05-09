@@ -42,6 +42,8 @@ const updateStatus = async () => {
       method: 'GET',
     })
     const data = await response.json()
+    console.log('⦿',data)
+
     const statusName = data.data.data.serviceInstance.latestDeployment.status
     const loading = ['INITIALIZING', 'PENDING', 'IN_PROGRESS', 'DEPLOYING', 'ROLLING_BACK']
     const running = ['SUCCESS', 'SUCCEEDED']
