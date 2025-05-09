@@ -1,5 +1,3 @@
-const apiHost = 'https://backboard.railway.com/graphql/v2'
-
 export default {
   async railway (query, options = {}) {
     try {
@@ -10,7 +8,7 @@ export default {
       Object.keys(options).forEach(key => {
         variables[key] = options[key]
       })
-      const response = await fetch('https://backboard.railway.app/graphql/v2', {
+      const response = await fetch('https://backboard.railway.com/graphql/v2', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${process.env.RAILWAY_API_TOKEN}`,
@@ -22,9 +20,11 @@ export default {
         })
       })
       const data = await response.json()
+      console.log('🌺 data', data)
       return data
     } catch (error) {
       console.error('🚒 railway', error)
+      throw error
     }
   },
 
