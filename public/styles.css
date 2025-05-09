@@ -1,22 +1,28 @@
 :root {
-  --background: #999999;
-  --service-background: #c8fffe;
-  --primary: black;
-  --button-border: rgba(0,0,0,0.5);
+  --background-color: white;
+  --service-background-color: #dcd3ef;
+  --primary-color: black;
+  --button-border-color: rgba(0,0,0,0.5);
+  --button-color: #e9e9ed;
+  --button-hover-color: #d0d0d6;
+  --hover-shadow: 4px 4px 0 rgba(0,0,0,0.5);
+  --active-shadow: inset 0px 2px 0 rgba(0,0,0,0.5);
+
+  --status-loading: teal;
+  --status-running: chartreuse;
+  --status-stopped: pink;
+  --status-unknown: grey;
 }
 
 body {
-  background-color: var(--background);
+  background-color: var(--background-color);
   font-family: sans-serif;
+  margin: 12px;
 }
 
 a {
-  color: var(--primary);
+  color: var(--primary-color);
   text-decoration: none;
-/*  &:hover {
-    text-decoration: underline;
-  }
-*/
 }
 
 h2 {
@@ -31,42 +37,68 @@ h2 {
   align-items: center;
 }
 
+main {
+  margin-top: 3rem;
+}
+
 article {
-  background-color: var(--service-background);
+  background-color: var(--service-background-color);
   width: 100%;
   max-width: 400px;
   padding: 12px;
   border-radius: 12px;
 }
 
-.action-button {
+button {
   height: 40px;
   width: 60px;
   cursor: pointer;
   border-radius: 12px;
   margin-right: 10px;
-  border: 1px solid var(--button-border);
+  border: 1px solid var(--button-border-color);
+  background-color: var(--button-color);
   font-size: 16px;
   &:hover {
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.5);
+    box-shadow: var(--hover-shadow);
+    background-color: var(--button-hover-color);
+  }
+  &:active {
+    box-shadow: var(--active-shadow);
+  }
+  img {
+    vertical-align: middle;
+    pointer-events: none;
   }
   .loading {
     pointer-events: none;
     opacity: 0.5
   }
-  img {
-    vertical-align: middle;
-  }
 }
 
 .status-badge {
-  background-color: teal;
+  background-color: #fed133;
   display: inline-block;
   padding: 4px 8px;
   padding-top: 5px;
   border-radius: 6px;
   margin-top: 10px;
+  user-select: none;
   &:hover {
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.5);
+    box-shadow: var(--hover-shadow);
+  }
+  &:active {
+    box-shadow: var(--active-shadow);
+  }
+  &.loading {
+    background-color: var(--status-loading);
+  }
+  &.running {
+    background-color: var(--status-running);
+  }
+  &.stopped {
+    background-color: var(--status-stopped);
+  }
+  &.unknown {
+    background-color: var(--status-unknown);
   }
 }

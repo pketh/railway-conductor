@@ -2,6 +2,7 @@ let currentStatus
 
 const updateStatusElement = ({ isLoading, isRunning, isStopped, isUnknown }) => {
   const element = document.querySelector('.status-badge')
+  element.classList.remove('running', 'loading', 'stopped', 'unknown')
   if (isRunning) {
     element.classList.add('running')
     element.innerText = 'Running'
@@ -19,6 +20,7 @@ const updateStatusElement = ({ isLoading, isRunning, isStopped, isUnknown }) => 
 
 const updateActionButton = ({ isLoading, isRunning, isStopped, isUnknown }) => {
   const element = document.querySelector('.action-button')
+  element.classList.remove('loading', 'stop', 'play')
   if (isLoading) {
     element.classList.add('loading')
     element.innerHTML = '<img src="loading.svg"/>'
@@ -91,9 +93,11 @@ const deploymentAction = async () => {
     return
   } else if (isRunning) {
     updateActionButton({ isLoading: true })
+    updateStatusElement({ isLoading: true })
     await stopService()
   } else {
     updateActionButton({ isLoading: true })
+    updateStatusElement({ isLoading: true })
     await startService()
   }
   updateStatus()
