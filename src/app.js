@@ -15,12 +15,14 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
 // Routes
-// app.get('/', (request, response) => {
-//   response.json({
-//     message: 'railway conductor',
-//     emoji: emojis.random()
-//   })
-// })
+app.get('/api', (request, response) => {
+  response.json({
+    message: 'railway conductor',
+  })
+})
+app.get('/', (request, response) => {
+  response.sendFile('./public/index.html', { root: '.' })
+})
 
 // Error handling
 app.use((error, request, response, next) => {
