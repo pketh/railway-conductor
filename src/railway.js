@@ -106,13 +106,17 @@ export default {
     }
   },
   async stop () {
-    const service = await this.service()
-    const deploymentId = service.data.serviceInstance.latestDeployment.id
-    const query = `
-      mutation deploymentStop($id: String!) {
-        deploymentStop(id: $id)
-      }
-    `
-    return this.railway(query, { id: deploymentId })
+    try {
+      const service = await this.service()
+      const deploymentId = service.data.serviceInstance.latestDeployment.id
+      const query = `
+        mutation deploymentStop($id: String!) {
+          deploymentStop(id: $id)
+        }
+      `
+      return this.railway(query, { id: deploymentId })
+    } catch (error) {
+      throw error
+    }
   },
 }
