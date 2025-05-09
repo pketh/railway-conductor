@@ -21,16 +21,16 @@ const updateActionButton = ({ isLoading, isRunning, isStopped, isUnknown }) => {
   const element = document.querySelector('.action-button')
   if (isLoading) {
     element.classList.add('loading')
-    element.innerText = 'loading'
+    element.innerHTML = '<img src="loading.svg"/>'
     return
   }
   element.classList.remove('loading')
   if (isRunning) {
     element.classList.add('stop')
-    element.innerText = 'stop'
+    element.innerHTML = '<img src="stop.svg"/>'
   } else {
     element.classList.add('play')
-    element.innerText = 'play'
+    element.innerHTML = '<img src="play.svg"/>'
   }
 }
 
