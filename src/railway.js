@@ -2,8 +2,8 @@ export default {
   async railway (query, options = {}) {
     try {
       const variables = {
-        environmentId: process.env.RAILWAY_ENVIRONMENT_ID,
-        serviceId: process.env.RAILWAY_SERVICE_ID
+        environmentId: process.env.ENVIRONMENT_ID,
+        serviceId: process.env.SERVICE_ID
       }
       Object.keys(options).forEach(key => {
         variables[key] = options[key]
@@ -20,7 +20,6 @@ export default {
         })
       })
       const data = await response.json()
-      console.log('🌺 data', data)
       return data
     } catch (error) {
       console.error('🚒 railway', error)

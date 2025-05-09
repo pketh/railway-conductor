@@ -59,7 +59,7 @@ const updateStatus = async () => {
     updateActionButton(status)
     currentStatus = status
   } catch (error) {
-    console.error('🚒 status', error)
+    console.error('🚒 updateStatus', error)
     updateStatusElement({ isUnknown: true })
   }
 }
