@@ -1,3 +1,11 @@
+const updateStatusElement = ({ isLoading, isRunning, isStopped, isUnknown }) => {
+  const element = document.querySelector('.status-badge')
+  if (isRunning) {
+    element.classList.add('success')
+    element.innerText = 'Running'
+  }
+}
+
 const updateStatus = async () => {
   try {
     const response = await fetch('/api/service', {
@@ -12,19 +20,12 @@ const updateStatus = async () => {
     const isRunning = running.includes(status)
     const isStopped = stopped.includes(status)
     const isUnknown = status === 'UNKNOWN'
-    console.log('🔮', status, {isLoading, isRunning, isStopped, isUnknown})
-    if (isLoading) {
-      //
-    } else if (isRunning) {
-      // handle success()
-    } else if (isStopped) {
-      // handle error()
-    } else if (isUnknown) {
-      // handle unknown, couldn't determine service status
-    }
+    console.log('🔮', status, { isLoading, isRunning, isStopped, isUnknown })
+    updateStatusElement({ isLoading, isRunning, isStopped, isUnknown })
+    // updateActionButton({ isLoading, isRunning, isStopped, isUnknown })
   } catch (error) {
     console.error('🚒 status', error)
-    // handle unknown
+    updateStatusElement({ isUnknown: true })
   }
 }
 

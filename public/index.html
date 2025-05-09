@@ -10,27 +10,34 @@
 </head>
 <body>
   <script src="index.js"></script>
-  <h1>Railway Conductor</h1>
+  <h1>
+    Railway Conductor
+  </h1>
+  <main>
 
-  <article>
-    <h2>Railway Test</h2>
-    <p>
-      <a href="https://railway-test-production-154a.up.railway.app">railway-test-production-154a.up.railway.app</a>
-      <a href="https://railway.com/project/a281c102-83c2-4beb-8547-8fff860dd568/service/7323d9de-15d6-41ad-9320-4fb95db014dc?environmentId=b5fb21e1-395f-4a5b-b9ba-347bab3fe795">(Logs)</a>
-    </p>
+    <article>
+      <div>
+        <!-- action button -->
+        <button>
+          ▶︎
+        </button>
+        <!-- service -->
+        <h2>
+          <a href="https://railway-test-production-154a.up.railway.app">
+            Railway Test
+          </a>
+        </h2>
+      </div>
+      <!-- status -->
+      <p id="status">
+        <a href="https://railway.com/project/a281c102-83c2-4beb-8547-8fff860dd568/service/7323d9de-15d6-41ad-9320-4fb95db014dc?environmentId=b5fb21e1-395f-4a5b-b9ba-347bab3fe795">
+          <div class="status-badge">
+            Loading…
+          </div>
+        </a>
+      </p>
+    </article>
 
-    <p id="status">
-      <!-- click to update status, polls every 1s -->
-      <!-- yellow for deploying -->
-      <!-- start for stopped -->
-      ☀︎ Running
-    </p>
-    <p>
-      <button>
-        ▶︎ play or pause toggle
-      </button>
-      <!-- show request status, loading -> response , status = 'INITIALIZING' -->
-    </p>
-  </article>
+  </main>
 </body>
 </html>
