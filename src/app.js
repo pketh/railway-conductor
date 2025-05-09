@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
 
-import emojis from './emojis.js'
+import railway from './railway.js'
 
 const app = express()
 
@@ -11,13 +11,16 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+// Serve static files from /public
+app.use(express.static('public'))
+
 // Routes
-app.get('/', (request, response) => {
-  response.json({
-    message: 'railway conductor',
-    emoji: emojis.random()
-  })
-})
+// app.get('/', (request, response) => {
+//   response.json({
+//     message: 'railway conductor',
+//     emoji: emojis.random()
+//   })
+// })
 
 // Error handling
 app.use((error, request, response, next) => {
