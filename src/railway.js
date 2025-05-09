@@ -1,8 +1,15 @@
 const apiHost = 'https://backboard.railway.com/graphql/v2'
 
 export default {
-  async railway (query) {
+  async railway (query, options = {}) {
     try {
+      const variables = {
+        environmentId: process.env.RAILWAY_ENVIRONMENT_ID,
+        serviceId: process.env.RAILWAY_SERVICE_ID
+      }
+      Object.keys(options).forEach(key => {
+        variables[key] = options[key]
+      })
       const response = await fetch('https://backboard.railway.app/graphql/v2', {
         method: 'POST',
         headers: {
@@ -11,16 +18,13 @@ export default {
         },
         body: JSON.stringify({
           query,
-          variables: {
-            environmentId: process.env.RAILWAY_ENVIRONMENT_ID,
-            serviceId: process.env.RAILWAY_SERVICE_ID
-          }
+          variables
         })
       })
       const data = await response.json()
       return data
     } catch (error) {
-      console.error('🚒 railway', error, query)
+      console.error('🚒 railway', error)
     }
   },
 
@@ -57,23 +61,58 @@ export default {
             updatedAt
             upstreamUrl
             watchPatterns
+            latestDeployment {
+              id
+              status
+              createdAt
+            }
           }
         }
       `
       return this.railway(query)
-      // console.log(response)
-      // if (!response.ok) {
-      //   throw new Error(`Failed to fetch service instance: ${response.status}`);
-      // }
-      // return data
     } catch (error) {
       throw error
     }
   },
-  async start () {
-// deploy
+  async restart () {
+    try {
+      const service = await this.service()
+      const deploymentId = service.data.serviceInstance.latestDeployment.id
+      const query = `
+        mutation deploymentRedeploy($id: String!, $usePreviousImageTag: Boolean) {
+          deploymentRedeploy(id: $id, usePreviousImageTag: $usePreviousImageTag) {
+            __typename
+            canRedeploy
+            canRollback
+            createdAt
+            deploymentStopped
+            environmentId
+            id
+            meta
+            projectId
+            serviceId
+            snapshotId
+            staticUrl
+            status
+            suggestAddServiceDomain
+            updatedAt
+            url
+          }
+        }
+      `
+      return this.railway(query, { id: deploymentId, usePreviousImageTag: true })
+    } catch (error) {
+      throw error
+    }
   },
   async stop () {
-// delete deployment
+    const service = await this.service()
+    const deploymentId = service.data.serviceInstance.latestDeployment.id
+    const query = `
+      mutation deploymentStop($id: String!) {
+        deploymentStop(id: $id)
+      }
+    `
+    return this.railway(query, { id: deploymentId })
   },
 }

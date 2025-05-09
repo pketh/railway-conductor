@@ -1,9 +1,36 @@
+<!DOCTYPE html>
 <html>
 <head>
-  <title>yolo</title>
+  <title>Railway Conductor</title>
+  <!-- favicon -->
+  <link
+    rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚝</text></svg>"
+  />
 </head>
 <body>
   <script src="index.js"></script>
-  <p>hihi</p>
+  <h1>Railway Conductor</h1>
+
+  <article>
+    <h2>Railway Test</h2>
+    <p>
+      <a href="https://railway-test-production-154a.up.railway.app">railway-test-production-154a.up.railway.app</a>
+      <a href="https://railway.com/project/a281c102-83c2-4beb-8547-8fff860dd568/service/7323d9de-15d6-41ad-9320-4fb95db014dc?environmentId=b5fb21e1-395f-4a5b-b9ba-347bab3fe795">(Logs)</a>
+    </p>
+
+    <p id="status">
+      <!-- click to update status, polls every 1s -->
+      <!-- yellow for deploying -->
+      <!-- start for stopped -->
+      ☀︎ Running
+    </p>
+    <p>
+      <button>
+        ▶︎ play or pause toggle
+      </button>
+      <!-- show request status, loading -> response , status = 'INITIALIZING' -->
+    </p>
+  </article>
 </body>
 </html>

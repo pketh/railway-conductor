@@ -14,12 +14,30 @@ app.use(express.urlencoded({ extended: true }))
 
 // Server Routes
 app.get('/api/service', async (request, response) => {
+  console.info('🛬 service')
   const data = await railway.service()
   response.json({
-    message: 'railway conductor',
+    message: 'service info',
     data
   })
 })
+app.get('/api/restart', async (request, response) => {
+  console.info('🛬 restart')
+  const data = await railway.restart()
+  response.json({
+    message: 'restart service',
+    data,
+  })
+})
+app.get('/api/stop', async (request, response) => {
+  console.info('🛬 stop')
+  const data = await railway.stop()
+  response.json({
+    message: 'stop service',
+    data,
+  })
+})
+
 
 // Client Routes
 app.use(express.static('public'))
