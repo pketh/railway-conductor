@@ -21,11 +21,11 @@ app.get('/api/service', async (request, response) => {
     data
   })
 })
-app.get('/api/restart', async (request, response) => {
-  console.info('🛬 restart')
-  const data = await railway.restart()
+app.get('/api/start', async (request, response) => {
+  console.info('🛬 start')
+  const data = await railway.start()
   response.json({
-    message: 'restart service',
+    message: 'start service',
     data,
   })
 })

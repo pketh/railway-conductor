@@ -74,7 +74,7 @@ export default {
       throw error
     }
   },
-  async restart () {
+  async start () {
     try {
       const service = await this.service()
       const deploymentId = service.data.serviceInstance.latestDeployment.id
