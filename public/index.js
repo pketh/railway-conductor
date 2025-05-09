@@ -42,7 +42,10 @@ const updateStatus = async () => {
       method: 'GET',
     })
     const data = await response.json()
-    const statusName = data.data.data.serviceInstance.latestDeployment.status
+    const statusName = data.data?.data?.serviceInstance.latestDeployment.status
+    if (!statusName) {
+      throw data
+    }
     const loading = ['INITIALIZING', 'PENDING', 'IN_PROGRESS', 'DEPLOYING', 'ROLLING_BACK']
     const running = ['SUCCESS', 'SUCCEEDED']
     const stopped = ['CRASHED', 'FAILED', 'FAILURE', 'TIMEOUT', 'CANCELED', 'CANCELLED']
